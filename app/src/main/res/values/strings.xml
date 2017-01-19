@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">GreySkull Phrak</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_save">Save</string>
+    <string name="button_create">Create</string>
+    <string name="button_setup">Setup</string>
+    <string name="bench">Bench Press</string>
+    <string name="row">Row</string>
+    <string name="squat">Squat</string>
+    <string name="chin">Chinup</string>
+    <string name="press">Overhead Press</string>
+    <string name="dead">Deadlift</string>
+    <string name="initial">initial weight</string>
+    <string name="setup">First Setup of Initial Weight</string>
+    <string name="incl">Lower Increment</string>
+    <string name="inch">Higher Increment</string>
+    <string name="amrap">AMRAP</string>
+    <string name="lwork">Last Workout</string>
+    <string name="nwork">Next Workout</string>
+    <string name="brs">BRS</string>
+    <string name="pcd">PCD</string>
+    <string name="pcs">PCS</string>
+    <string name="brd">BRD</string>
+    <string name="freestyle">Freestyle</string>
+</resources>
