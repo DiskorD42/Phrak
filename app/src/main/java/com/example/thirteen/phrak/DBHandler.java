@@ -22,6 +22,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_WORKOUTNAME = "name";
     public static final String COLUMN_WEIGHT = "weight";
     public static final String COLUMN_AMRAP = "amrap";
+    public static final String COLUMN_WORKOUT_ID_FK = "workout_nr";
 
     public static final String TABLE_SETUP = "setup";
     public static final String COLUMN_SETUP_ID = "id";
@@ -32,7 +33,14 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_CHINUP = "chinup";
     public static final String COLUMN_DEADLIFT = "deadlift";
     public static final String COLUMN_INCH = "increment_high";
-    public static final String COLUMN_INCL = "increment_high";
+    public static final String COLUMN_INCL = "increment_low";
+
+    public static final String TABLE_WORKOUT = "workout";
+    public static final String COLUMN_WORKOUT_ID = "workout_id";
+    public static final String COLUMN_WORKOUT1 = "workout_one";
+    public static final String COLUMN_WORKOUT2 = "workout_two";
+    public static final String COLUMN_WORKOUT3 = "workout_three";
+
 
 
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -47,7 +55,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 COLUMN_DATE + " DATE" +
                 COLUMN_WORKOUTNAME + " TEXT" +
                 COLUMN_WEIGHT + " FLOAT" +
-                COLUMN_AMRAP + " amrap" +
+                COLUMN_AMRAP + " INT" +
+                COLUMN_WORKOUT_ID_FK + " INT" +
                 ");";
         db.execSQL(query);
 
@@ -64,6 +73,46 @@ public class DBHandler extends SQLiteOpenHelper {
                 ");";
         db.execSQL(query2);
 
+        String query3 = "CREATE TABLE" + TABLE_WORKOUT + "(" +
+                COLUMN_WORKOUT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" +
+                COLUMN_WORKOUT1 + " TEXT" +
+                COLUMN_WORKOUT2 + " TEXT" +
+                COLUMN_WORKOUT3 + " TEXT" +
+                ");";
+        db.execSQL(query3);
+
+        initiate_workout_table();
+
+    }
+
+    private void initiate_workout_table() {
+        ContentValues values = new ContentValues();
+        SQLiteDatabase db = getWritableDatabase();
+
+        values.put(COLUMN_WORKOUT1, "Overhead Press");
+        values.put(COLUMN_WORKOUT2, "Chinups");
+        values.put(COLUMN_WORKOUT3, "Squats");
+        db.insert(TABLE_WORKOUT, null, values);
+        values.put(COLUMN_WORKOUT1, "Bench Press");
+        values.put(COLUMN_WORKOUT2, "Rows");
+        values.put(COLUMN_WORKOUT3, "Deadlifts");
+        db.insert(TABLE_WORKOUT, null, values);
+        values.put(COLUMN_WORKOUT1, "Overhead Press");
+        values.put(COLUMN_WORKOUT2, "Chinups");
+        values.put(COLUMN_WORKOUT3, "Squats");
+        db.insert(TABLE_WORKOUT, null, values);
+        values.put(COLUMN_WORKOUT1, "Bench Press");
+        values.put(COLUMN_WORKOUT2, "Rows");
+        values.put(COLUMN_WORKOUT3, "Squats");
+        db.insert(TABLE_WORKOUT, null, values);
+        values.put(COLUMN_WORKOUT1, "Overhead Press");
+        values.put(COLUMN_WORKOUT2, "Chinups");
+        values.put(COLUMN_WORKOUT3, "Deadlifts");
+        db.insert(TABLE_WORKOUT, null, values);
+        values.put(COLUMN_WORKOUT1, "Bench Press");
+        values.put(COLUMN_WORKOUT2, "Rows");
+        values.put(COLUMN_WORKOUT3, "Squats");
+        db.close();
     }
 
     @Override
@@ -71,6 +120,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_ENTRY);
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_SETUP);
+        db.execSQL("DROP TABLE IF EXISTS" + TABLE_WORKOUT);
         onCreate(db);
 
     }
@@ -147,6 +197,51 @@ public class DBHandler extends SQLiteOpenHelper {
         } else {
             return null;
         }
+    }
+
+    public String[] getLastAndNextWorkout() {
+        int workout_id;
+        String last_workout_name = null;
+        String next_workout_name = null;
+        String[] workouts = new String[2];
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "SELECT FROM " + TABLE_ENTRY + "WHERE" + COLUMN_ENTRY_ID + "=(SELECT MAX(" +
+                COLUMN_ENTRY_ID + ") FROM+" + TABLE_ENTRY + ");";
+
+        Cursor c = db.rawQuery(query, null);
+        if(c.moveToFirst()){
+            workout_id = c.getInt(c.getColumnIndex(COLUMN_WORKOUT_ID_FK));
+
+            String query2 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE" +
+                    COLUMN_WORKOUT_ID + "="+workout_id+ ");";
+
+            Cursor l = db.rawQuery(query2, null);
+            if(l.moveToFirst()){
+                last_workout_name = String.valueOf(l.getString(l.getColumnIndex(COLUMN_WORKOUT1)).charAt(0));
+                last_workout_name += String.valueOf(l.getString(l.getColumnIndex(COLUMN_WORKOUT2)).charAt(0));
+                last_workout_name += String.valueOf(l.getString(l.getColumnIndex(COLUMN_WORKOUT3)).charAt(0));
+                workouts[0] = last_workout_name;
+
+            }
+            String query3 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE" +
+                    COLUMN_WORKOUT_ID + "="+workout_id+1 + ");";
+            Cursor n = db.rawQuery(query2, null);
+            if(n.moveToFirst()){
+                next_workout_name = String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT1)).charAt(0));
+                next_workout_name += String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT2)).charAt(0));
+                next_workout_name += String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT3)).charAt(0));
+                workouts[1] = next_workout_name;
+
+            }
+
+
+        }else{
+            workouts[0] = "...";
+            workouts[1] = "OCS";
+        }
+
+        return workouts;
 
     }
 }

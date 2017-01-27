@@ -146,7 +146,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginTop="50dp"
-        android:text="@string/button_setup"
+        android:text="@string/button_create"
         android:layout_weight="1"
         android:onClick="initiateWorkout"/>/>
 
