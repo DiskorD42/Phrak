@@ -110,7 +110,7 @@ public class ExerciseOne extends AppCompatActivity {
         TextView weight = (TextView)findViewById(R.id.weight);
         Entry eData = getExerciseData(firstLetter);
         mText.setText (eData.name);
-        weight.setText(eData.weight);
+        weight.setText(String.valueOf(eData.weight));
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {

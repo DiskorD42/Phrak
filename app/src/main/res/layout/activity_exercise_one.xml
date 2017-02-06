@@ -22,6 +22,7 @@
         android:id="@+id/weight"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         android:gravity="center"
         android:keepScreenOn="true"
         android:text="@string/dummy_content"

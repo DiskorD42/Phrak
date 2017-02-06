@@ -26,12 +26,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public static final String TABLE_SETUP = "setup";
     public static final String COLUMN_SETUP_ID = "id";
-    public static final String COLUMN_BENCH_PRESS = "bench_press";
-    public static final String COLUMN_BARBELL_ROWS = "barbell_row";
-    public static final String COLUMN_SQUAT = "squat";
-    public static final String COLUMN_OVERHEAD_PRESS = "overhead_press";
-    public static final String COLUMN_CHINUP = "chinup";
-    public static final String COLUMN_DEADLIFT = "deadlift";
+    public static final String COLUMN_BENCH_PRESS = "\"Bench Press\"";
+    public static final String COLUMN_BARBELL_ROWS = "Rows";
+    public static final String COLUMN_SQUAT = "Squats";
+    public static final String COLUMN_OVERHEAD_PRESS = "\"Overhead Press\"";
+    public static final String COLUMN_CHINUP = "Chinups";
+    public static final String COLUMN_DEADLIFT = "Deadlifts";
     public static final String COLUMN_INCH = "increment_high";
     public static final String COLUMN_INCL = "increment_low";
 
@@ -91,27 +91,27 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
 
-        values.put(COLUMN_WORKOUT1, "Overhead Press");
+        values.put(COLUMN_WORKOUT1, "\"Overhead Press\"");
         values.put(COLUMN_WORKOUT2, "Chinups");
         values.put(COLUMN_WORKOUT3, "Squats");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Bench Press");
+        values.put(COLUMN_WORKOUT1, "\"Bench Press\"");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Deadlifts");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Overhead Press");
+        values.put(COLUMN_WORKOUT1, "\"Overhead Press\"");
         values.put(COLUMN_WORKOUT2, "Chinups");
         values.put(COLUMN_WORKOUT3, "Squats");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Bench Press");
+        values.put(COLUMN_WORKOUT1, "\"Bench Press\"");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Squats");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Overhead Press");
+        values.put(COLUMN_WORKOUT1, "\"Overhead Press\"");
         values.put(COLUMN_WORKOUT2, "Chinups");
         values.put(COLUMN_WORKOUT3, "Deadlifts");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Bench Press");
+        values.put(COLUMN_WORKOUT1, "\"Bench Press\"");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Squats");
 
@@ -139,8 +139,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void addSetup(float bench, float barbell, float squat, float press, float chinup,
-                         float deadlift, float inch, float incl) {
+    public void addSetup(double bench, double barbell, double squat, double press, double chinup,
+                         double deadlift, double inch, double incl) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -157,8 +157,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void updateSetup(float bench, float barbell, float squat, float press, float chinup,
-                            float deadlift, float inch, float incl){
+    public void updateSetup(double bench, double barbell, double squat, double press, double chinup,
+    double deadlift, double inch, double incl) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE " + TABLE_SETUP + " SET " +
@@ -184,22 +184,27 @@ public class DBHandler extends SQLiteOpenHelper {
     public Entry getLastEntry(String workoutname) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT FROM " + TABLE_ENTRY + " WHERE " + COLUMN_WORKOUTNAME + " = '" + workoutname +
-                "'  ORDER BY "+ COLUMN_ENTRY_ID + " DESC LIMIT 1;";
+        String query = "SELECT * FROM " + TABLE_ENTRY + " WHERE " + COLUMN_WORKOUTNAME + " = '" + workoutname +
+                "' ORDER BY "+ COLUMN_ENTRY_ID + " DESC LIMIT 1;";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
-
-        if (c.getString(c.getColumnIndex(COLUMN_WORKOUTNAME)) != null) {
+        //cursorindexoutofboundsexception index 0
+        if (c.moveToFirst() && c.getCount() >=1) {
 
             return new Entry(c.getString(c.getColumnIndex(COLUMN_WORKOUTNAME)), new Date(c.getLong(c.getColumnIndex(COLUMN_DATE))),
-                    c.getInt(c.getColumnIndex(COLUMN_WEIGHT)), c.getInt(c.getColumnIndex(COLUMN_AMRAP)));
+                    c.getFloat(c.getColumnIndex(COLUMN_WEIGHT)), c.getInt(c.getColumnIndex(COLUMN_AMRAP)));
 
         } else {
             //get entry from setup table
-            return null;
+            String query2 = "SELECT \"" + workoutname+"\" FROM " + TABLE_SETUP + ";";
+            Cursor d = db.rawQuery(query2, null);
+            if(d.moveToFirst()){
+                return new Entry(workoutname, new Date(), d.getDouble(d.getColumnIndex(workoutname)),0);
+            }
 
         }
+        return null;
     }
 
     public String[] getLastAndNextWorkout() {
@@ -208,8 +213,6 @@ public class DBHandler extends SQLiteOpenHelper {
         String next_workout_name = null;
         String[] workouts = new String[2];
         SQLiteDatabase db = this.getReadableDatabase();
-
-
 
         String query = "SELECT * FROM " + TABLE_ENTRY+"  ORDER BY "+ COLUMN_ENTRY_ID + " DESC LIMIT 1;";
 
