@@ -22,4 +22,8 @@
     <string name="pcs">PCS</string>
     <string name="brd">BRD</string>
     <string name="freestyle">Freestyle</string>
+
+    <string name="title_activity_workout">WorkoutActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

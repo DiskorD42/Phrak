@@ -43,6 +43,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 
+
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
@@ -50,44 +51,45 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String query = "CREATE TABLE" + TABLE_ENTRY + "(" +
-                COLUMN_ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" +
-                COLUMN_DATE + " DATE" +
-                COLUMN_WORKOUTNAME + " TEXT" +
-                COLUMN_WEIGHT + " FLOAT" +
-                COLUMN_AMRAP + " INT" +
-                COLUMN_WORKOUT_ID_FK + " INT" +
+
+        String query = "CREATE TABLE " + TABLE_ENTRY + "(" +
+                COLUMN_ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_DATE + " DATE, " +
+                COLUMN_WORKOUTNAME + " TEXT, " +
+                COLUMN_WEIGHT + " FLOAT, " +
+                COLUMN_AMRAP + " INT, " +
+                COLUMN_WORKOUT_ID_FK + " INT " +
                 ");";
         db.execSQL(query);
 
-        String query2 = "CREATE TABLE" + TABLE_SETUP + "(" +
-                COLUMN_SETUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" +
-                COLUMN_BENCH_PRESS + " FLOAT" +
-                COLUMN_BARBELL_ROWS + " FLOAT" +
-                COLUMN_SQUAT + " FLOAT" +
-                COLUMN_OVERHEAD_PRESS + " FLOAT" +
-                COLUMN_CHINUP + " FLOAT" +
-                COLUMN_DEADLIFT + " FLOAT" +
-                COLUMN_INCH + " FLOAT" +
-                COLUMN_INCL + " FLOAT" +
+        String query2 = "CREATE TABLE " + TABLE_SETUP + "(" +
+                COLUMN_SETUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_BENCH_PRESS + " FLOAT, " +
+                COLUMN_BARBELL_ROWS + " FLOAT, " +
+                COLUMN_SQUAT + " FLOAT, " +
+                COLUMN_OVERHEAD_PRESS + " FLOAT, " +
+                COLUMN_CHINUP + " FLOAT, "  +
+                COLUMN_DEADLIFT + " FLOAT, " +
+                COLUMN_INCH + " FLOAT, " +
+                COLUMN_INCL + " FLOAT " +
                 ");";
         db.execSQL(query2);
 
-        String query3 = "CREATE TABLE" + TABLE_WORKOUT + "(" +
-                COLUMN_WORKOUT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" +
-                COLUMN_WORKOUT1 + " TEXT" +
-                COLUMN_WORKOUT2 + " TEXT" +
-                COLUMN_WORKOUT3 + " TEXT" +
+        String query3 = "CREATE TABLE " + TABLE_WORKOUT + "(" +
+                COLUMN_WORKOUT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_WORKOUT1 + " TEXT, " +
+                COLUMN_WORKOUT2 + " TEXT, " +
+                COLUMN_WORKOUT3 + " TEXT " +
                 ");";
         db.execSQL(query3);
 
-        initiate_workout_table();
+        initiate_workout_table(db);
 
     }
 
-    private void initiate_workout_table() {
+    private void initiate_workout_table(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
-        SQLiteDatabase db = getWritableDatabase();
+
 
         values.put(COLUMN_WORKOUT1, "Overhead Press");
         values.put(COLUMN_WORKOUT2, "Chinups");
@@ -112,7 +114,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_WORKOUT1, "Bench Press");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Squats");
-        db.close();
+
     }
 
     @Override
@@ -126,13 +128,12 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public void addEntry(Entry entry) {
-
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, String.valueOf(entry.date));
         values.put(COLUMN_WORKOUTNAME, String.valueOf(entry.name));
         values.put(COLUMN_WEIGHT, entry.weight);
         values.put(COLUMN_AMRAP, entry.amrap);
-        SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_ENTRY, null, values);
         db.close();
 
@@ -141,6 +142,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void addSetup(float bench, float barbell, float squat, float press, float chinup,
                          float deadlift, float inch, float incl) {
 
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_BENCH_PRESS, bench);
         values.put(COLUMN_BARBELL_ROWS, barbell);
@@ -150,7 +152,6 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_DEADLIFT, deadlift);
         values.put(COLUMN_INCH, inch);
         values.put(COLUMN_INCL, incl);
-        SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_SETUP, null, values);
         db.close();
 
@@ -159,8 +160,8 @@ public class DBHandler extends SQLiteOpenHelper {
     public void updateSetup(float bench, float barbell, float squat, float press, float chinup,
                             float deadlift, float inch, float incl){
 
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE " + TABLE_SETUP + " SET" +
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + TABLE_SETUP + " SET " +
                 COLUMN_BENCH_PRESS + "=" + bench + ", " +
                 COLUMN_BARBELL_ROWS + "=" + barbell + ", " +
                 COLUMN_SQUAT + "="+ squat + ", " +
@@ -174,17 +175,17 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteEntry(String date, String workoutname) {
 
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_ENTRY + " WHERE" + COLUMN_DATE + "=" + date + "AND" +
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_ENTRY + " WHERE " + COLUMN_DATE + "=" + date + "AND " +
                 COLUMN_WORKOUTNAME + "=" + workoutname + ";");
 
     }
 
     public Entry getLastEntry(String workoutname) {
 
-        SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT FROM " + TABLE_ENTRY + " WHERE" + COLUMN_WORKOUTNAME + "=" + workoutname +
-                " AND WHERE" + COLUMN_ENTRY_ID + "=(SELECT MAX(" + COLUMN_ENTRY_ID + ") FROM+" + TABLE_ENTRY + ");";
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT FROM " + TABLE_ENTRY + " WHERE " + COLUMN_WORKOUTNAME + " = '" + workoutname +
+                "'  ORDER BY "+ COLUMN_ENTRY_ID + " DESC LIMIT 1;";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
@@ -195,7 +196,9 @@ public class DBHandler extends SQLiteOpenHelper {
                     c.getInt(c.getColumnIndex(COLUMN_WEIGHT)), c.getInt(c.getColumnIndex(COLUMN_AMRAP)));
 
         } else {
+            //get entry from setup table
             return null;
+
         }
     }
 
@@ -204,16 +207,17 @@ public class DBHandler extends SQLiteOpenHelper {
         String last_workout_name = null;
         String next_workout_name = null;
         String[] workouts = new String[2];
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT FROM " + TABLE_ENTRY + "WHERE" + COLUMN_ENTRY_ID + "=(SELECT MAX(" +
-                COLUMN_ENTRY_ID + ") FROM+" + TABLE_ENTRY + ");";
+
+
+        String query = "SELECT * FROM " + TABLE_ENTRY+"  ORDER BY "+ COLUMN_ENTRY_ID + " DESC LIMIT 1;";
 
         Cursor c = db.rawQuery(query, null);
         if(c.moveToFirst()){
             workout_id = c.getInt(c.getColumnIndex(COLUMN_WORKOUT_ID_FK));
 
-            String query2 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE" +
+            String query2 = "SELECT FROM " + TABLE_WORKOUT + " WHERE " +
                     COLUMN_WORKOUT_ID + "="+workout_id+ ");";
 
             Cursor l = db.rawQuery(query2, null);
@@ -224,7 +228,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 workouts[0] = last_workout_name;
 
             }
-            String query3 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE" +
+            String query3 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE " +
                     COLUMN_WORKOUT_ID + "="+workout_id+1 + ");";
             Cursor n = db.rawQuery(query2, null);
             if(n.moveToFirst()){

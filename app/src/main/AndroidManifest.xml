@@ -18,7 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateWorkoutActivity"></activity>
+        <activity android:name=".CreateWorkoutActivity" />
+        <activity
+            android:name=".ExerciseOne"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_workout"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

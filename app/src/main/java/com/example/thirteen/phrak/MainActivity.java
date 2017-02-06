@@ -72,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
         NumberPicker higherinc = (NumberPicker) findViewById(R.id.higherInc);
 
         dbHandler = new DBHandler(this, null, null, 1);
-        dbHandler.addSetup(bench.getValue(),barbell.getValue(), squat.getValue(),press.getValue(),
-                chinups.getValue(), deadlift.getValue(), higherinc.getValue(), lowerinc.getValue());
+        //dbHandler.addSetup(bench.getValue(),barbell.getValue(), squat.getValue(),press.getValue(),
+         //       chinups.getValue(), deadlift.getValue(), higherinc.getValue(), lowerinc.getValue());
+        dbHandler.addSetup(5,5, 5,5,5,5,5,5);
 
         startActivity(intent);
 
