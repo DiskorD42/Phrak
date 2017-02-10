@@ -23,7 +23,21 @@
             android:name=".ExerciseOne"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_workout"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".ExerciseTwo"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_workout"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".ExerciseThree"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_workout"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".FinishActivity"
+            android:label="@string/title_activity_finish_"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

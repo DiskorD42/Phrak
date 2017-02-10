@@ -2,28 +2,29 @@ package com.example.thirteen.phrak;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * Created by Marc on 06.02.2017.
  */
-public class ExerciseOne extends AppCompatActivity {
+
+public class ExerciseTwo extends AppCompatActivity {
+
     TextView exercise;
     TextView weight;
     TextView amrap;
     String workout;
+
     Map<String, String> workouts = new HashMap<>();
     DBHandler db = new DBHandler(this,null,null,1);
     /**
@@ -104,7 +105,7 @@ public class ExerciseOne extends AppCompatActivity {
         initializeMap();
         Bundle bundle = getIntent().getExtras();
         workout = bundle.getString("nworkout");
-        String firstLetter = workout.substring(0, 1);
+        String firstLetter = workout.substring(1, 2);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -146,7 +147,7 @@ public class ExerciseOne extends AppCompatActivity {
 
     private Entry getExerciseData(String firstLetter) {
 
-       return db.getLastEntry( workouts.get(firstLetter));
+        return db.getLastEntry( workouts.get(firstLetter));
 
     }
 
@@ -209,15 +210,17 @@ public class ExerciseOne extends AppCompatActivity {
         bundle  = new Bundle();
         bundle.putString("nworkout", workout);
         bundle.putInt("workout_id", workout_id);
-
+//null pointer on exercise?
         Entry e = new Entry(exercise.getText().toString(), new Date(),
-                            Double.valueOf(weight.getText().toString()),
-                            Integer.valueOf(amrap.getText().toString()),
-                            workout_id);
+                Double.valueOf(weight.getText().toString()),
+                Integer.valueOf(amrap.getText().toString()),
+                workout_id);
         db.addEntry(e);
         Intent intent = new Intent(this, ExerciseTwo.class);
         intent.putExtras(bundle);
         startActivity(intent);
+
+
 
 
 

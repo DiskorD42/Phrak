@@ -193,14 +193,14 @@ public class DBHandler extends SQLiteOpenHelper {
         if (c.moveToFirst() && c.getCount() >=1) {
 
             return new Entry(c.getString(c.getColumnIndex(COLUMN_WORKOUTNAME)), new Date(c.getLong(c.getColumnIndex(COLUMN_DATE))),
-                    c.getFloat(c.getColumnIndex(COLUMN_WEIGHT)), c.getInt(c.getColumnIndex(COLUMN_AMRAP)));
+                    c.getFloat(c.getColumnIndex(COLUMN_WEIGHT)), c.getInt(c.getColumnIndex(COLUMN_AMRAP)), c.getInt(c.getColumnIndex(COLUMN_WORKOUT_ID_FK)));
 
         } else {
             //get entry from setup table
             String query2 = "SELECT \"" + workoutname+"\" FROM " + TABLE_SETUP + ";";
             Cursor d = db.rawQuery(query2, null);
             if(d.moveToFirst()){
-                return new Entry(workoutname, new Date(), d.getDouble(d.getColumnIndex(workoutname)),0);
+                return new Entry(workoutname, new Date(), d.getDouble(d.getColumnIndex(workoutname)),0,1);
             }
 
         }
@@ -211,20 +211,21 @@ public class DBHandler extends SQLiteOpenHelper {
         int workout_id;
         String last_workout_name = null;
         String next_workout_name = null;
-        String[] workouts = new String[2];
+        String[] workouts = new String[3];
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT * FROM " + TABLE_ENTRY+"  ORDER BY "+ COLUMN_ENTRY_ID + " DESC LIMIT 1;";
+        String query = "SELECT * FROM " + TABLE_ENTRY + "  ORDER BY " + COLUMN_ENTRY_ID + " DESC LIMIT 1;";
 
         Cursor c = db.rawQuery(query, null);
-        if(c.moveToFirst()){
+        //workout fk in entry = 0, lowest workout id = 1
+        if (c.moveToFirst()) {
             workout_id = c.getInt(c.getColumnIndex(COLUMN_WORKOUT_ID_FK));
 
-            String query2 = "SELECT FROM " + TABLE_WORKOUT + " WHERE " +
-                    COLUMN_WORKOUT_ID + "="+workout_id+ ");";
+            String query2 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE " +
+                    COLUMN_WORKOUT_ID + "=" + workout_id + ";";
 
             Cursor l = db.rawQuery(query2, null);
-            if(l.moveToFirst()){
+            if (l.moveToFirst()) {
                 last_workout_name = String.valueOf(l.getString(l.getColumnIndex(COLUMN_WORKOUT1)).charAt(0));
                 last_workout_name += String.valueOf(l.getString(l.getColumnIndex(COLUMN_WORKOUT2)).charAt(0));
                 last_workout_name += String.valueOf(l.getString(l.getColumnIndex(COLUMN_WORKOUT3)).charAt(0));
@@ -232,23 +233,26 @@ public class DBHandler extends SQLiteOpenHelper {
 
             }
             String query3 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE " +
-                    COLUMN_WORKOUT_ID + "="+workout_id+1 + ");";
+                    COLUMN_WORKOUT_ID + "=" + workout_id + 1 + ");";
             Cursor n = db.rawQuery(query2, null);
-            if(n.moveToFirst()){
+            if (n.moveToFirst()) {
                 next_workout_name = String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT1)).charAt(0));
                 next_workout_name += String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT2)).charAt(0));
                 next_workout_name += String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT3)).charAt(0));
                 workouts[1] = next_workout_name;
+                workouts[2] = "" + workout_id;
 
             }
 
 
-        }else{
+        } else {
             workouts[0] = "...";
             workouts[1] = "OCS";
+            workouts[2] = "1";
+
+
+
         }
-
         return workouts;
-
     }
 }

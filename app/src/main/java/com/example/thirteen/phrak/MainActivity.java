@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         }
     public void setEntry(String name, Date date, NumberPicker numb){
         dbHandler = new DBHandler(this, null,null,1);
-        Entry entry = new Entry(name,date,numb.getValue(),-1);
+        Entry entry = new Entry(name,date,numb.getValue(),-1,1);
         dbHandler.addEntry(entry);
 
 

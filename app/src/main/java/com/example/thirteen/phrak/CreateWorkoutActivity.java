@@ -9,13 +9,14 @@ import android.widget.TextView;
 public class CreateWorkoutActivity extends AppCompatActivity {
 TextView lworkout;
 TextView nworkout;
+String[] lastWorkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_workout);
 
-        String[] lastWorkout = getLastWorkout();
+        lastWorkout = getLastWorkout();
         lworkout = (TextView) findViewById(R.id.last_workout);
         lworkout.setText(lastWorkout[0]);
         nworkout = (TextView) findViewById(R.id.next_workout);
@@ -35,7 +36,8 @@ TextView nworkout;
         Intent intent = new Intent(this, ExerciseOne.class);
         Bundle bundle  = new Bundle();
         bundle.putString("nworkout", nworkout.getText().toString());
-        intent.putExtras(bundle);
+        bundle.putInt("workout_id", Integer.valueOf(lastWorkout[2]));
+                intent.putExtras(bundle);
         startActivity(intent);
     }
 }
