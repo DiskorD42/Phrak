@@ -10,10 +10,10 @@ public class Entry {
 
     String name;
     Date date;
-    int weight;
+    float weight;
     int amrap;
 
-    public Entry(String name, Date date, int weight, int amrap){
+    public Entry(String name, Date date, float weight, int amrap){
 
         this.name = name;
         this.date = date;

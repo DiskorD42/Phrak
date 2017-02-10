@@ -36,8 +36,10 @@
             android:gravity="start"
             android:text="@string/bench"
             android:layout_weight="1"/>
-        <NumberPicker android:id="@+id/benchPress"
-            android:layout_height="match_parent"
+        <EditText
+            android:inputType="number|phone"
+            android:id="@+id/benchPress"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_width="0dp" />
     </LinearLayout>
@@ -54,9 +56,11 @@
             android:gravity="start"
             android:text="@string/row"
             android:layout_weight="1"/>
-        <NumberPicker android:id="@+id/row"
+        <EditText
+            android:inputType="number|phone"
+            android:id="@+id/row"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
 
             />
@@ -74,9 +78,11 @@
             android:gravity="start"
             android:text="@string/squat"
             android:layout_weight="1"/>
-        <NumberPicker android:id="@+id/squat"
+        <EditText
+            android:inputType="number|phone"
+            android:id="@+id/squat"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
@@ -93,9 +99,11 @@
             android:text="@string/press"
             android:layout_weight="1"/>
 
-        <NumberPicker android:id="@+id/overheadPress"
+        <EditText
+            android:inputType="number|phone"
+            android:id="@+id/overheadPress"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             />
     </LinearLayout>
@@ -112,9 +120,11 @@
             android:gravity="start"
             android:text="@string/chin"
             android:layout_weight="1"/>
-        <NumberPicker android:id="@+id/chinup"
+        <EditText
+            android:inputType="number|phone"
+            android:id="@+id/chinup"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
@@ -130,9 +140,11 @@
             android:gravity="start"
             android:text="@string/dead"
             android:layout_weight="1"/>
-        <NumberPicker android:id="@+id/deadlift"
+        <EditText
+            android:inputType="number|phone"
+            android:id="@+id/deadlift"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
@@ -148,9 +160,11 @@
             android:gravity="start"
             android:text="@string/incl"
             android:layout_weight="1"/>
-        <NumberPicker android:id="@+id/lowerInc"
+        <EditText
+            android:inputType="number|phone"
+            android:id="@+id/lowerInc"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"/>
     </LinearLayout>
 
@@ -167,9 +181,11 @@
             android:gravity="start"
             android:text="@string/inch"
             android:layout_weight="1"/>
-        <NumberPicker android:id="@+id/higherInc"
+        <EditText
+            android:inputType="number|phone"
+            android:id="@+id/higherInc"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
