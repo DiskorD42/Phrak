@@ -10,15 +10,17 @@ public class Entry {
 
     String name;
     Date date;
-    float weight;
+    double weight;
     int amrap;
+    int workout_id;
 
-    public Entry(String name, Date date, float weight, int amrap){
+    public Entry(String name, Date date, double weight, int amrap, int workout_id){
 
         this.name = name;
         this.date = date;
         this.weight = weight;
         this.amrap = amrap;
+        this.workout_id = workout_id;
     }
 
     public long GetDateToLong(){

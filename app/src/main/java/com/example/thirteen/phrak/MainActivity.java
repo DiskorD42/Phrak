@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import com.example.thirteen.phrak.DBHandler;
 import java.util.Date;
@@ -18,7 +18,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     DBHandler dbHandler;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,27 +62,26 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreateWorkoutActivity.class);
 
         //get all the values from the number picker
-        EditText bench = (EditText) findViewById(R.id.benchPress);
-        EditText barbell = (EditText) findViewById(R.id.row);
-        EditText squat = (EditText) findViewById(R.id.squat);
-        EditText press = (EditText) findViewById(R.id.overheadPress);
-        EditText chinups = (EditText) findViewById(R.id.chinup);
-        EditText deadlift = (EditText) findViewById(R.id.deadlift);
-        EditText lowerinc = (EditText) findViewById(R.id.lowerInc);
-        EditText higherinc = (EditText) findViewById(R.id.higherInc);
+        NumberPicker bench = (NumberPicker) findViewById(R.id.benchPress);
+        NumberPicker barbell = (NumberPicker) findViewById(R.id.row);
+        NumberPicker squat = (NumberPicker) findViewById(R.id.squat);
+        NumberPicker press = (NumberPicker) findViewById(R.id.overheadPress);
+        NumberPicker chinups = (NumberPicker) findViewById(R.id.chinup);
+        NumberPicker deadlift = (NumberPicker) findViewById(R.id.deadlift);
+        NumberPicker lowerinc = (NumberPicker) findViewById(R.id.lowerInc);
+        NumberPicker higherinc = (NumberPicker) findViewById(R.id.higherInc);
 
-        dbHandler = new DBHandler(this, null, null, 1);
-        dbHandler.addSetup(Float.valueOf(bench.getText().toString()),Float.valueOf(barbell.getText().toString()),
-                Float.valueOf(squat.getText().toString()),Float.valueOf(press.getText().toString()),
-                Float.valueOf(chinups.getText().toString()), Float.valueOf(deadlift.getText().toString()),
-                Float.valueOf(higherinc.getText().toString()), Float.valueOf(lowerinc.getText().toString()));
+        dbHandler = new DBHandler(this, null, null, 2);
+        //dbHandler.addSetup(bench.getValue(),barbell.getValue(), squat.getValue(),press.getValue(),
+         //       chinups.getValue(), deadlift.getValue(), higherinc.getValue(), lowerinc.getValue());
+        dbHandler.addSetup(5.5,5.5,5.5,5.5,55.5,5.5,5.5,5.5);
 
         startActivity(intent);
 
         }
-    public void setEntry(String name, Date date, EditText numb){
+    public void setEntry(String name, Date date, NumberPicker numb){
         dbHandler = new DBHandler(this, null,null,1);
-        Entry entry = new Entry(name,date,Float.valueOf(numb.getText().toString()),-1);
+        Entry entry = new Entry(name,date,numb.getValue(),-1,1);
         dbHandler.addEntry(entry);
 
 

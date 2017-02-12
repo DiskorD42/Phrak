@@ -26,12 +26,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public static final String TABLE_SETUP = "setup";
     public static final String COLUMN_SETUP_ID = "id";
-    public static final String COLUMN_BENCH_PRESS = "bench_press";
-    public static final String COLUMN_BARBELL_ROWS = "barbell_row";
-    public static final String COLUMN_SQUAT = "squat";
-    public static final String COLUMN_OVERHEAD_PRESS = "overhead_press";
-    public static final String COLUMN_CHINUP = "chinup";
-    public static final String COLUMN_DEADLIFT = "deadlift";
+    public static final String COLUMN_BENCH_PRESS = "\"Bench Press\"";
+    public static final String COLUMN_BARBELL_ROWS = "Rows";
+    public static final String COLUMN_SQUAT = "Squats";
+    public static final String COLUMN_OVERHEAD_PRESS = "\"Overhead Press\"";
+    public static final String COLUMN_CHINUP = "Chinups";
+    public static final String COLUMN_DEADLIFT = "Deadlifts";
     public static final String COLUMN_INCH = "increment_high";
     public static final String COLUMN_INCL = "increment_low";
 
@@ -43,6 +43,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 
+
     public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
@@ -50,69 +51,70 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String query = "CREATE TABLE" + TABLE_ENTRY + "(" +
-                COLUMN_ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" +
-                COLUMN_DATE + " DATE" +
-                COLUMN_WORKOUTNAME + " TEXT" +
-                COLUMN_WEIGHT + " FLOAT" +
-                COLUMN_AMRAP + " INT" +
-                COLUMN_WORKOUT_ID_FK + " INT" +
+
+        String query = "CREATE TABLE " + TABLE_ENTRY + "(" +
+                COLUMN_ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_DATE + " DATE, " +
+                COLUMN_WORKOUTNAME + " TEXT, " +
+                COLUMN_WEIGHT + " FLOAT, " +
+                COLUMN_AMRAP + " INT, " +
+                COLUMN_WORKOUT_ID_FK + " INT " +
                 ");";
         db.execSQL(query);
 
-        String query2 = "CREATE TABLE" + TABLE_SETUP + "(" +
-                COLUMN_SETUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" +
-                COLUMN_BENCH_PRESS + " FLOAT" +
-                COLUMN_BARBELL_ROWS + " FLOAT" +
-                COLUMN_SQUAT + " FLOAT" +
-                COLUMN_OVERHEAD_PRESS + " FLOAT" +
-                COLUMN_CHINUP + " FLOAT" +
-                COLUMN_DEADLIFT + " FLOAT" +
-                COLUMN_INCH + " FLOAT" +
-                COLUMN_INCL + " FLOAT" +
+        String query2 = "CREATE TABLE " + TABLE_SETUP + "(" +
+                COLUMN_SETUP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_BENCH_PRESS + " FLOAT, " +
+                COLUMN_BARBELL_ROWS + " FLOAT, " +
+                COLUMN_SQUAT + " FLOAT, " +
+                COLUMN_OVERHEAD_PRESS + " FLOAT, " +
+                COLUMN_CHINUP + " FLOAT, "  +
+                COLUMN_DEADLIFT + " FLOAT, " +
+                COLUMN_INCH + " FLOAT, " +
+                COLUMN_INCL + " FLOAT " +
                 ");";
         db.execSQL(query2);
 
-        String query3 = "CREATE TABLE" + TABLE_WORKOUT + "(" +
-                COLUMN_WORKOUT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" +
-                COLUMN_WORKOUT1 + " TEXT" +
-                COLUMN_WORKOUT2 + " TEXT" +
-                COLUMN_WORKOUT3 + " TEXT" +
+        String query3 = "CREATE TABLE " + TABLE_WORKOUT + "(" +
+                COLUMN_WORKOUT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_WORKOUT1 + " TEXT, " +
+                COLUMN_WORKOUT2 + " TEXT, " +
+                COLUMN_WORKOUT3 + " TEXT " +
                 ");";
         db.execSQL(query3);
 
-        initiate_workout_table();
+        initiate_workout_table(db);
 
     }
 
-    private void initiate_workout_table() {
+    private void initiate_workout_table(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
-        SQLiteDatabase db = getWritableDatabase();
 
-        values.put(COLUMN_WORKOUT1, "Overhead Press");
+
+        values.put(COLUMN_WORKOUT1, "\"Overhead Press\"");
         values.put(COLUMN_WORKOUT2, "Chinups");
         values.put(COLUMN_WORKOUT3, "Squats");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Bench Press");
+        values.put(COLUMN_WORKOUT1, "\"Bench Press\"");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Deadlifts");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Overhead Press");
+        values.put(COLUMN_WORKOUT1, "\"Overhead Press\"");
         values.put(COLUMN_WORKOUT2, "Chinups");
         values.put(COLUMN_WORKOUT3, "Squats");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Bench Press");
+        values.put(COLUMN_WORKOUT1, "\"Bench Press\"");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Squats");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Overhead Press");
+        values.put(COLUMN_WORKOUT1, "\"Overhead Press\"");
         values.put(COLUMN_WORKOUT2, "Chinups");
         values.put(COLUMN_WORKOUT3, "Deadlifts");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "Bench Press");
+        values.put(COLUMN_WORKOUT1, "\"Bench Press\"");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Squats");
-        db.close();
+
     }
 
     @Override
@@ -126,21 +128,21 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     public void addEntry(Entry entry) {
-
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_DATE, String.valueOf(entry.date));
         values.put(COLUMN_WORKOUTNAME, String.valueOf(entry.name));
         values.put(COLUMN_WEIGHT, entry.weight);
         values.put(COLUMN_AMRAP, entry.amrap);
-        SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_ENTRY, null, values);
         db.close();
 
     }
 
-    public void addSetup(float bench, float barbell, float squat, float press, float chinup,
-                         float deadlift, float inch, float incl) {
+    public void addSetup(double bench, double barbell, double squat, double press, double chinup,
+                         double deadlift, double inch, double incl) {
 
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_BENCH_PRESS, bench);
         values.put(COLUMN_BARBELL_ROWS, barbell);
@@ -150,17 +152,16 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_DEADLIFT, deadlift);
         values.put(COLUMN_INCH, inch);
         values.put(COLUMN_INCL, incl);
-        SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_SETUP, null, values);
         db.close();
 
     }
 
-    public void updateSetup(float bench, float barbell, float squat, float press, float chinup,
-                            float deadlift, float inch, float incl){
+    public void updateSetup(double bench, double barbell, double squat, double press, double chinup,
+    double deadlift, double inch, double incl) {
 
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE " + TABLE_SETUP + " SET" +
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + TABLE_SETUP + " SET " +
                 COLUMN_BENCH_PRESS + "=" + bench + ", " +
                 COLUMN_BARBELL_ROWS + "=" + barbell + ", " +
                 COLUMN_SQUAT + "="+ squat + ", " +
@@ -174,74 +175,84 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteEntry(String date, String workoutname) {
 
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_ENTRY + " WHERE" + COLUMN_DATE + "=" + date + "AND" +
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_ENTRY + " WHERE " + COLUMN_DATE + "=" + date + "AND " +
                 COLUMN_WORKOUTNAME + "=" + workoutname + ";");
 
     }
 
     public Entry getLastEntry(String workoutname) {
 
-        SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT FROM " + TABLE_ENTRY + " WHERE" + COLUMN_WORKOUTNAME + "=" + workoutname +
-                " AND WHERE" + COLUMN_ENTRY_ID + "=(SELECT MAX(" + COLUMN_ENTRY_ID + ") FROM+" + TABLE_ENTRY + ");";
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_ENTRY + " WHERE " + COLUMN_WORKOUTNAME + " = '" + workoutname +
+                "' ORDER BY "+ COLUMN_ENTRY_ID + " DESC LIMIT 1;";
 
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
-
-        if (c.getString(c.getColumnIndex(COLUMN_WORKOUTNAME)) != null) {
+        //cursorindexoutofboundsexception index 0
+        if (c.moveToFirst() && c.getCount() >=1) {
 
             return new Entry(c.getString(c.getColumnIndex(COLUMN_WORKOUTNAME)), new Date(c.getLong(c.getColumnIndex(COLUMN_DATE))),
-                    c.getInt(c.getColumnIndex(COLUMN_WEIGHT)), c.getInt(c.getColumnIndex(COLUMN_AMRAP)));
+                    c.getFloat(c.getColumnIndex(COLUMN_WEIGHT)), c.getInt(c.getColumnIndex(COLUMN_AMRAP)), c.getInt(c.getColumnIndex(COLUMN_WORKOUT_ID_FK)));
 
         } else {
-            return null;
+            //get entry from setup table
+            String query2 = "SELECT \"" + workoutname+"\" FROM " + TABLE_SETUP + ";";
+            Cursor d = db.rawQuery(query2, null);
+            if(d.moveToFirst()){
+                return new Entry(workoutname, new Date(), d.getDouble(d.getColumnIndex(workoutname)),0,1);
+            }
+
         }
+        return null;
     }
 
     public String[] getLastAndNextWorkout() {
         int workout_id;
         String last_workout_name = null;
         String next_workout_name = null;
-        String[] workouts = new String[2];
-        SQLiteDatabase db = getWritableDatabase();
+        String[] workouts = new String[3];
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT FROM " + TABLE_ENTRY + "WHERE" + COLUMN_ENTRY_ID + "=(SELECT MAX(" +
-                COLUMN_ENTRY_ID + ") FROM+" + TABLE_ENTRY + ");";
+        String query = "SELECT * FROM " + TABLE_ENTRY + "  ORDER BY " + COLUMN_ENTRY_ID + " DESC LIMIT 1;";
 
         Cursor c = db.rawQuery(query, null);
-        if(c.moveToFirst()){
+        //workout fk in entry = 0, lowest workout id = 1
+        if (c.moveToFirst()) {
             workout_id = c.getInt(c.getColumnIndex(COLUMN_WORKOUT_ID_FK));
 
-            String query2 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE" +
-                    COLUMN_WORKOUT_ID + "="+workout_id+ ");";
+            String query2 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE " +
+                    COLUMN_WORKOUT_ID + "=" + workout_id + ";";
 
             Cursor l = db.rawQuery(query2, null);
-            if(l.moveToFirst()){
+            if (l.moveToFirst()) {
                 last_workout_name = String.valueOf(l.getString(l.getColumnIndex(COLUMN_WORKOUT1)).charAt(0));
                 last_workout_name += String.valueOf(l.getString(l.getColumnIndex(COLUMN_WORKOUT2)).charAt(0));
                 last_workout_name += String.valueOf(l.getString(l.getColumnIndex(COLUMN_WORKOUT3)).charAt(0));
                 workouts[0] = last_workout_name;
 
             }
-            String query3 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE" +
-                    COLUMN_WORKOUT_ID + "="+workout_id+1 + ");";
+            String query3 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE " +
+                    COLUMN_WORKOUT_ID + "=" + workout_id + 1 + ");";
             Cursor n = db.rawQuery(query2, null);
-            if(n.moveToFirst()){
+            if (n.moveToFirst()) {
                 next_workout_name = String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT1)).charAt(0));
                 next_workout_name += String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT2)).charAt(0));
                 next_workout_name += String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT3)).charAt(0));
                 workouts[1] = next_workout_name;
+                workouts[2] = "" + workout_id;
 
             }
 
 
-        }else{
+        } else {
             workouts[0] = "...";
             workouts[1] = "OCS";
+            workouts[2] = "1";
+
+
+
         }
-
         return workouts;
-
     }
 }

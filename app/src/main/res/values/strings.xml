@@ -22,4 +22,11 @@
     <string name="pcs">PCS</string>
     <string name="brd">BRD</string>
     <string name="freestyle">Freestyle</string>
+    <string name="exercise">Exercise</string>
+
+    <string name="title_activity_workout">WorkoutActivity</string>
+    <string name="dummy_button">Done</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_finish_">Its over its done</string>
+    <string name="skelly">WELL DONE SKELETON</string>
 </resources>
