@@ -26,10 +26,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public static final String TABLE_SETUP = "setup";
     public static final String COLUMN_SETUP_ID = "id";
-    public static final String COLUMN_BENCH_PRESS = "\"Bench Press\"";
+    public static final String COLUMN_BENCH_PRESS = "BenchPress";
     public static final String COLUMN_BARBELL_ROWS = "Rows";
     public static final String COLUMN_SQUAT = "Squats";
-    public static final String COLUMN_OVERHEAD_PRESS = "\"Overhead Press\"";
+    public static final String COLUMN_OVERHEAD_PRESS = "OverheadPress";
     public static final String COLUMN_CHINUP = "Chinups";
     public static final String COLUMN_DEADLIFT = "Deadlifts";
     public static final String COLUMN_INCH = "increment_high";
@@ -91,27 +91,27 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
 
-        values.put(COLUMN_WORKOUT1, "\"Overhead Press\"");
+        values.put(COLUMN_WORKOUT1, "OverheadPress");
         values.put(COLUMN_WORKOUT2, "Chinups");
         values.put(COLUMN_WORKOUT3, "Squats");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "\"Bench Press\"");
+        values.put(COLUMN_WORKOUT1, "BenchPress");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Deadlifts");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "\"Overhead Press\"");
+        values.put(COLUMN_WORKOUT1, "OverheadPress");
         values.put(COLUMN_WORKOUT2, "Chinups");
         values.put(COLUMN_WORKOUT3, "Squats");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "\"Bench Press\"");
+        values.put(COLUMN_WORKOUT1, "BenchPress");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Squats");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "\"Overhead Press\"");
+        values.put(COLUMN_WORKOUT1, "OverheadPress");
         values.put(COLUMN_WORKOUT2, "Chinups");
         values.put(COLUMN_WORKOUT3, "Deadlifts");
         db.insert(TABLE_WORKOUT, null, values);
-        values.put(COLUMN_WORKOUT1, "\"Bench Press\"");
+        values.put(COLUMN_WORKOUT1, "Bench Press");
         values.put(COLUMN_WORKOUT2, "Rows");
         values.put(COLUMN_WORKOUT3, "Squats");
 
@@ -134,6 +134,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(COLUMN_WORKOUTNAME, String.valueOf(entry.name));
         values.put(COLUMN_WEIGHT, entry.weight);
         values.put(COLUMN_AMRAP, entry.amrap);
+        values.put(COLUMN_WORKOUT_ID_FK, entry.workout_id);
         db.insert(TABLE_ENTRY, null, values);
         db.close();
 
@@ -217,10 +218,9 @@ public class DBHandler extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_ENTRY + "  ORDER BY " + COLUMN_ENTRY_ID + " DESC LIMIT 1;";
 
         Cursor c = db.rawQuery(query, null);
-        //workout fk in entry = 0, lowest workout id = 1
+        //workout lowest workout id = 1
         if (c.moveToFirst()) {
             workout_id = c.getInt(c.getColumnIndex(COLUMN_WORKOUT_ID_FK));
-
             String query2 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE " +
                     COLUMN_WORKOUT_ID + "=" + workout_id + ";";
 
@@ -233,14 +233,18 @@ public class DBHandler extends SQLiteOpenHelper {
 
             }
             String query3 = "SELECT * FROM " + TABLE_WORKOUT + " WHERE " +
-                    COLUMN_WORKOUT_ID + "=" + workout_id + 1 + ");";
-            Cursor n = db.rawQuery(query2, null);
+                    COLUMN_WORKOUT_ID + "=" + (workout_id + 1) + ";";
+            Cursor n = db.rawQuery(query3, null);
             if (n.moveToFirst()) {
                 next_workout_name = String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT1)).charAt(0));
                 next_workout_name += String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT2)).charAt(0));
                 next_workout_name += String.valueOf(n.getString(n.getColumnIndex(COLUMN_WORKOUT3)).charAt(0));
                 workouts[1] = next_workout_name;
-                workouts[2] = "" + workout_id;
+                //resets the id after 5
+                if(workout_id+1==5){
+                    workout_id = 0;
+                }
+                workouts[2] = "" + (workout_id+1);
 
             }
 

@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 
 import com.example.thirteen.phrak.DBHandler;
@@ -62,14 +63,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CreateWorkoutActivity.class);
 
         //get all the values from the number picker
-        NumberPicker bench = (NumberPicker) findViewById(R.id.benchPress);
-        NumberPicker barbell = (NumberPicker) findViewById(R.id.row);
-        NumberPicker squat = (NumberPicker) findViewById(R.id.squat);
-        NumberPicker press = (NumberPicker) findViewById(R.id.overheadPress);
-        NumberPicker chinups = (NumberPicker) findViewById(R.id.chinup);
-        NumberPicker deadlift = (NumberPicker) findViewById(R.id.deadlift);
-        NumberPicker lowerinc = (NumberPicker) findViewById(R.id.lowerInc);
-        NumberPicker higherinc = (NumberPicker) findViewById(R.id.higherInc);
+        EditText bench =    (EditText) findViewById(R.id.benchPress);
+        EditText barbell =  (EditText) findViewById(R.id.row);
+        EditText squat =    (EditText) findViewById(R.id.squat);
+        EditText press =    (EditText) findViewById(R.id.overheadPress);
+        EditText chinups =  (EditText) findViewById(R.id.chinup);
+        EditText deadlift = (EditText) findViewById(R.id.deadlift);
+        EditText lowerinc = (EditText) findViewById(R.id.lowerInc);
+        EditText higherinc =(EditText) findViewById(R.id.higherInc);
 
         dbHandler = new DBHandler(this, null, null, 2);
         //dbHandler.addSetup(bench.getValue(),barbell.getValue(), squat.getValue(),press.getValue(),

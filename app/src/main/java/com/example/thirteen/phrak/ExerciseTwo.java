@@ -137,10 +137,10 @@ public class ExerciseTwo extends AppCompatActivity {
 
     private void initializeMap() {
         workouts.put("R", "Rows");
-        workouts.put("B", "Bench Press");
+        workouts.put("B", "BenchPress");
         workouts.put("C", "Chinups");
         workouts.put("S", "Squats");
-        workouts.put("O", "Overhead Press");
+        workouts.put("O", "OverheadPress");
         workouts.put("C", "Chinups");
         workouts.put("D", "Deadlifts");
     }
@@ -216,7 +216,7 @@ public class ExerciseTwo extends AppCompatActivity {
                 Integer.valueOf(amrap.getText().toString()),
                 workout_id);
         db.addEntry(e);
-        Intent intent = new Intent(this, ExerciseTwo.class);
+        Intent intent = new Intent(this, ExerciseThree.class);
         intent.putExtras(bundle);
         startActivity(intent);
 

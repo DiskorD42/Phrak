@@ -136,10 +136,10 @@ public class ExerciseOne extends AppCompatActivity {
 
     private void initializeMap() {
         workouts.put("R", "Rows");
-        workouts.put("B", "Bench Press");
+        workouts.put("B", "BenchPress");
         workouts.put("C", "Chinups");
         workouts.put("S", "Squats");
-        workouts.put("O", "Overhead Press");
+        workouts.put("O", "OverheadPress");
         workouts.put("C", "Chinups");
         workouts.put("D", "Deadlifts");
     }
