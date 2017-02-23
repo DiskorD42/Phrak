@@ -13,4 +13,12 @@
     tools:context="com.example.thirteen.phrak.FinishActivity"
     tools:showIn="@layout/activity_finish_">
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="50dp"
+        android:text="@string/gtfo"
+        android:layout_weight="1"
+        android:onClick="closeApp"/>
+
 </RelativeLayout>

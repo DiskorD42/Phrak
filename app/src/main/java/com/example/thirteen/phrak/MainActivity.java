@@ -73,21 +73,18 @@ public class MainActivity extends AppCompatActivity {
         EditText higherinc =(EditText) findViewById(R.id.higherInc);
 
         dbHandler = new DBHandler(this, null, null, 2);
-        //dbHandler.addSetup(bench.getValue(),barbell.getValue(), squat.getValue(),press.getValue(),
-         //       chinups.getValue(), deadlift.getValue(), higherinc.getValue(), lowerinc.getValue());
-        dbHandler.addSetup(5.5,5.5,5.5,5.5,55.5,5.5,5.5,5.5);
+        //ouch
+        dbHandler.addSetup(Double.valueOf(bench.getText().toString()),Double.valueOf(barbell.getText().toString()),
+                Double.valueOf(squat.getText().toString()),Double.valueOf(press.getText().toString()),
+                Double.valueOf(chinups.getText().toString()), Double.valueOf(deadlift.getText().toString()),
+                Double.valueOf(higherinc.getText().toString()), Double.valueOf(lowerinc.getText().toString()));
+
 
         startActivity(intent);
 
         }
-    public void setEntry(String name, Date date, NumberPicker numb){
-        dbHandler = new DBHandler(this, null,null,1);
-        Entry entry = new Entry(name,date,numb.getValue(),-1,1);
-        dbHandler.addEntry(entry);
-
-
 
     }
 
 
-    }
+

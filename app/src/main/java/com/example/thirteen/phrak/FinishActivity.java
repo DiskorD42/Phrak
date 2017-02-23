@@ -26,4 +26,8 @@ public class FinishActivity extends AppCompatActivity {
         });
     }
 
+    public void closeApp(){
+        this.finish();
+    }
+
 }

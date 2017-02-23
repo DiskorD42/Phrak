@@ -29,5 +29,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_finish_">Its over its done</string>
     <string name="skelly">WELL DONE SKELETON</string>
+    <string name="gtfo">GTFO</string>
     <string name="title_activity_startup">StartupActivity</string>
 </resources>

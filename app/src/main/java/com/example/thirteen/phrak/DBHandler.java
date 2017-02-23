@@ -174,6 +174,28 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
+    public double getLowerinc() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_SETUP + " ;";
+
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        return c.getDouble(c.getColumnIndex(COLUMN_INCL));
+
+    }
+
+    public double getHigherinc() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_SETUP + " ;";
+
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        return c.getDouble(c.getColumnIndex(COLUMN_INCH));
+
+    }
+
     public void deleteEntry(String date, String workoutname) {
 
         SQLiteDatabase db = this.getWritableDatabase();
